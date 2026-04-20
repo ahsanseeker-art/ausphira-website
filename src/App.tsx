@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Phone, 
   Mail, 
@@ -15,28 +15,11 @@ import {
   Building2,
   ArrowRight,
   ArrowUpRight,
-  Star,
-  Menu,
-  X
+  Star
 } from 'lucide-react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
-
-  const heroImages = [
-    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80"
-  ];
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
-    }, 7000); // 7 seconds per slide
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
-
   const { scrollYProgress, scrollY } = useScroll();
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   
@@ -138,34 +121,8 @@ export default function App() {
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
   };
 
-  const bentoCardRevealLeft = {
-    hidden: { opacity: 0, x: -50, y: 30, scale: 0.9, rotateY: 10, rotateX: -10 },
-    visible: { 
-      opacity: 1, 
-      x: 0, 
-      y: 0, 
-      scale: 1, 
-      rotateY: 0, 
-      rotateX: 0,
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } 
-    }
-  };
-
-  const bentoCardRevealRight = {
-    hidden: { opacity: 0, x: 50, y: 30, scale: 0.9, rotateY: -10, rotateX: -10 },
-    visible: { 
-      opacity: 1, 
-      x: 0, 
-      y: 0, 
-      scale: 1, 
-      rotateY: 0, 
-      rotateX: 0,
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } 
-    }
-  };
-
-  const bentoCardRevealBottom = {
-    hidden: { opacity: 0, y: 60, scale: 0.9, rotateX: -15 },
+  const bentoCardReveal = {
+    hidden: { opacity: 0, y: 80, scale: 0.9, rotateX: -15 },
     visible: { 
       opacity: 1, 
       y: 0, 
@@ -176,22 +133,13 @@ export default function App() {
   };
 
   const galleryImageReveal = {
-    hidden: (idx: number) => ({
-      opacity: 0,
-      y: idx % 2 === 0 ? 60 : 100, // Alternate entry heights
-      x: idx % 2 === 0 ? -20 : 20, // Slight horizontal sway
-      scale: 0.85,
-      rotateZ: idx % 2 === 0 ? -3 : 3, // Polaroid-style subtle rotation
-      filter: "blur(15px)"
-    }),
+    hidden: { opacity: 0, y: 60, scale: 0.85, filter: "blur(12px)" },
     visible: {
       opacity: 1,
       y: 0,
-      x: 0,
       scale: 1,
-      rotateZ: 0,
       filter: "blur(0px)",
-      transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
@@ -263,8 +211,22 @@ export default function App() {
           }}
           className="max-w-5xl mx-auto flex justify-between items-center px-6 md:px-8 py-4 rounded-full border border-transparent"
         >
-          <div className="flex items-center">
-            <img src="/logo.png" alt="AUSPHIRA Logo" className="h-10 md:h-[42px] w-auto object-contain" />
+          <div className="flex items-center gap-3">
+            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+              <circle cx="50" cy="50" r="46" stroke="url(#goldGradient)" strokeWidth="4"/>
+              <path d="M50 20 L25 80 L35 80 L50 40 L65 80 L75 80 Z" fill="url(#goldGradient)"/>
+              <path d="M20 70 Q 50 45 80 70" stroke="url(#goldGradient)" strokeWidth="6" fill="none" strokeLinecap="round"/>
+              <defs>
+                <linearGradient id="goldGradient" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#EADCB6"/>
+                  <stop offset="0.5" stopColor="#C8A96F"/>
+                  <stop offset="1" stopColor="#93743B"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span className="font-display text-xl md:text-2xl tracking-[0.2em] font-black text-white uppercase mt-1">
+              AUS<span className="text-gold-500">PHIRA</span>
+            </span>
           </div>
           <div className="hidden md:flex items-center space-x-10 text-xs font-display font-medium uppercase tracking-widest text-slate-300">
             <a href="#services" className="hover:text-gold-400 transition-colors duration-300">Services</a>
@@ -273,39 +235,8 @@ export default function App() {
               Contact
             </a>
           </div>
-          <button 
-            className="md:hidden text-white flex items-center justify-center p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-            onClick={() => setIsMobileMenuOpen(true)}
-          >
-            <Menu className="w-5 h-5" />
-          </button>
         </motion.div>
       </motion.nav>
-
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[110] bg-navy-950/95 backdrop-blur-2xl flex flex-col items-center justify-center px-6"
-          >
-            <button 
-              className="absolute top-8 right-8 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <X className="w-8 h-8" />
-            </button>
-            <nav className="flex flex-col items-center gap-10 text-2xl font-display font-medium tracking-widest uppercase text-white w-full">
-              <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors w-full text-center py-4 border-b border-white/5">Services</a>
-              <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors w-full text-center py-4 border-b border-white/5">About Us</a>
-              <a href="#testimonials" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold-400 transition-colors w-full text-center py-4 border-b border-white/5">Testimonials</a>
-              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="mt-8 px-10 py-4 bg-white text-navy-950 hover:bg-gold-400 transition-all duration-500 rounded-full font-bold text-lg w-full text-center shadow-[0_0_30px_rgba(200,169,111,0.2)]">Contact Us</a>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <main className="relative z-10 w-full overflow-hidden">
         
@@ -323,19 +254,14 @@ export default function App() {
                 y: ["0%", "1%"]
               }}
               transition={{ duration: 25, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-              className="w-full h-full relative"
+              className="w-full h-full"
             >
-              <AnimatePresence mode="popLayout">
-                <motion.div 
-                  key={currentHeroIndex}
-                  initial={{ filter: "blur(24px)", opacity: 0, scale: 1.1 }}
-                  animate={{ filter: "blur(0px)", opacity: 1, scale: 1 }}
-                  exit={{ filter: "blur(24px)", opacity: 0, transition: { duration: 2 } }}
-                  transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 w-full h-full bg-cover bg-bottom mix-blend-overlay grayscale contrast-125"
-                  style={{ backgroundImage: `url('${heroImages[currentHeroIndex]}')` }}
-                />
-              </AnimatePresence>
+              <motion.div 
+                initial={{ scale: 1.2, filter: "blur(24px)", opacity: 0 }}
+                animate={{ scale: 1, filter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full h-full bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] bg-cover bg-bottom mix-blend-overlay grayscale contrast-125"
+              />
             </motion.div>
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-transparent to-navy-950 pointer-events-none z-0"></div>
@@ -392,23 +318,23 @@ export default function App() {
                   hidden: { opacity: 1 },
                   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
                 }}
-                className="font-display text-[11vw] sm:text-[9vw] lg:text-[85px] xl:text-[105px] leading-[0.95] md:leading-[1] text-white font-medium mb-1 drop-shadow-lg flex flex-col items-center text-center w-full"
+                className="font-display text-[10vw] sm:text-[8vw] lg:text-[85px] xl:text-[105px] leading-[1] text-white font-medium mb-1 drop-shadow-lg flex flex-col items-center text-center w-full"
               >
-                <motion.span variants={heroTopReveal} className="block mb-3 md:mb-2">BUILDING A</motion.span>
-                <motion.span variants={heroMiddleReveal} className="font-serif italic font-light text-gradient-gold lowercase block text-[13vw] sm:text-[11vw] lg:text-[100px] xl:text-[120px] relative z-20 py-1">
+                <motion.span variants={heroTopReveal} className="block mb-2">BUILDING A</motion.span>
+                <motion.span variants={heroMiddleReveal} className="font-serif italic font-light text-gradient-gold lowercase block text-[12vw] sm:text-[10vw] lg:text-[100px] xl:text-[120px] relative z-20">
                   portfolio
                 </motion.span>
-                <motion.span variants={heroBottomReveal} className="block font-black mt-3 md:mt-2 uppercase relative z-10 w-full text-center tracking-tight">OF SUCCESS.</motion.span>
+                <motion.span variants={heroBottomReveal} className="block font-black mt-2 uppercase relative z-10 w-full text-center">OF SUCCESS.</motion.span>
               </motion.h1>
 
-              <motion.p variants={fadeUp} className="mt-8 md:mt-10 text-base sm:text-lg md:text-xl xl:text-2xl text-slate-300 font-light max-w-2xl leading-relaxed px-4 md:px-0">
+              <motion.p variants={fadeUp} className="mt-8 text-lg md:text-xl xl:text-2xl text-slate-300 font-light max-w-2xl leading-relaxed">
                 Luxury business solutions for a global market, operated with uncompromised local excellence.
               </motion.p>
 
-              <motion.div variants={fadeUp} className="mt-12 md:mt-16 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full max-w-md sm:max-w-none mx-auto sm:w-auto px-4 sm:px-0">
+              <motion.div variants={fadeUp} className="mt-16 flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
                 <a 
                   href={phoneLink}
-                  className="w-full sm:w-auto group relative px-8 py-4 sm:py-5 bg-white text-navy-950 font-display font-bold uppercase tracking-widest text-[13px] sm:text-sm rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] active:scale-95 border border-transparent hover:border-white/50 flex justify-center"
+                  className="w-full sm:w-auto group relative px-8 py-4 bg-white text-navy-950 font-display font-bold uppercase tracking-widest text-sm rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] active:scale-95 border border-transparent hover:border-white/50"
                 >
                   <div className="absolute inset-0 bg-gold-400 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
                   <span className="relative flex items-center justify-center gap-2 group-hover:text-navy-950 transition-colors duration-500">
@@ -419,7 +345,7 @@ export default function App() {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto group px-8 py-4 sm:py-5 bg-transparent border border-white/20 text-white font-display font-bold uppercase tracking-widest text-[13px] sm:text-sm rounded-full flex items-center justify-center gap-2 hover:bg-white/5 hover:border-gold-400/50 hover:text-gold-300 transition-all duration-500 hover:shadow-[0_0_30px_-10px_rgba(200,169,111,0.2)]"
+                  className="w-full sm:w-auto group px-8 py-4 bg-transparent border border-white/20 text-white font-display font-bold uppercase tracking-widest text-sm rounded-full flex items-center justify-center gap-2 hover:bg-white/5 hover:border-gold-400/50 hover:text-gold-300 transition-all duration-500 hover:shadow-[0_0_30px_-10px_rgba(200,169,111,0.2)]"
                 >
                   WhatsApp Us <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
                 </a>
@@ -487,7 +413,7 @@ export default function App() {
               
               {/* Ecommerce - Large Card */}
               <motion.div 
-                variants={bentoCardRevealLeft}
+                variants={bentoCardReveal}
                 className="md:col-span-12 lg:col-span-7 md:row-span-2 glass-panel glass-panel-hover rounded-[32px] p-8 md:p-12 relative overflow-hidden group min-h-[400px] lg:min-h-0 flex flex-col justify-end"
               >
                 <div className="absolute inset-0 opacity-30 group-hover:opacity-70 transform group-hover:scale-105 transition-all duration-1000 ease-out bg-[url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay filter grayscale group-hover:grayscale-0"></div>
@@ -503,7 +429,7 @@ export default function App() {
 
               {/* Digital Solutions */}
               <motion.div 
-                variants={bentoCardRevealRight}
+                variants={bentoCardReveal}
                 className="md:col-span-6 lg:col-span-5 glass-panel glass-panel-hover rounded-[32px] p-8 relative overflow-hidden group"
               >
                 <div className="absolute inset-0 opacity-20 group-hover:opacity-50 transform group-hover:scale-105 transition-all duration-1000 ease-out bg-[url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay filter grayscale group-hover:grayscale-0"></div>
@@ -524,7 +450,7 @@ export default function App() {
 
               {/* Artificial Intelligence */}
               <motion.div 
-                variants={bentoCardRevealLeft}
+                variants={bentoCardReveal}
                 className="md:col-span-6 lg:col-span-5 glass-panel glass-panel-hover rounded-[32px] p-8 relative overflow-hidden group"
               >
                 <div className="absolute inset-0 opacity-20 group-hover:opacity-60 transform group-hover:scale-105 transition-all duration-1000 ease-out bg-[url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay filter grayscale group-hover:grayscale-0"></div>
@@ -546,7 +472,7 @@ export default function App() {
 
               {/* Import & Export */}
               <motion.div 
-                variants={bentoCardRevealBottom}
+                variants={bentoCardReveal}
                 className="md:col-span-5 lg:col-span-4 glass-panel glass-panel-hover rounded-[32px] p-8 relative overflow-hidden group"
               >
                 <div className="absolute inset-0 opacity-20 group-hover:opacity-50 transform group-hover:scale-105 transition-all duration-1000 ease-out bg-[url('https://images.unsplash.com/photo-1586528116311-ad8ed74d4715?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay filter grayscale group-hover:grayscale-0"></div>
@@ -567,7 +493,7 @@ export default function App() {
 
               {/* Business Development */}
               <motion.div 
-                variants={bentoCardRevealRight}
+                variants={bentoCardReveal}
                 className="md:col-span-7 lg:col-span-8 glass-panel glass-panel-hover rounded-[32px] p-8 md:p-10 relative overflow-hidden group bg-navy-950"
               >
                  <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transform group-hover:scale-105 transition-all duration-1000 ease-out bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay filter grayscale group-hover:grayscale-0"></div>
@@ -682,7 +608,6 @@ export default function App() {
               ].map((img, idx) => (
                 <motion.div 
                   key={idx}
-                  custom={idx}
                   variants={galleryImageReveal}
                   className="relative rounded-3xl overflow-hidden glass-panel aspect-[4/5] group"
                 >
