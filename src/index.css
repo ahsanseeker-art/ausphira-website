@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+
+  /* Champagne/Muted Gold from Logo */
+  --color-gold-300: #EADCB6; 
+  --color-gold-400: #D8C391;
+  --color-gold-500: #C8A96F; 
+  --color-gold-600: #B39255;
+  --color-gold-700: #93743B;
+
+  /* Deep Navy Background from Logo */
+  --color-navy-950: #040A18; 
+  --color-navy-900: #0A1128; 
+  --color-navy-800: #13204A; 
+  --color-navy-400: #4A6FA5;
+  --color-navy-100: #E2E8F0;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-navy-950);
+  }
+  body {
+    background-color: var(--color-navy-950);
+    color: var(--color-navy-100);
+    @apply font-sans antialiased overflow-x-hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-white font-display;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-300 via-gold-500 to-gold-700;
+  }
+  
+  .glass-panel {
+    @apply bg-navy-900/60 backdrop-blur-xl border border-white/[0.05] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)];
+  }
+
+  .glass-panel-hover {
+    @apply hover:bg-navy-800/80 hover:border-gold-500/40 hover:-translate-y-1 transition-all duration-500;
+  }
+}
