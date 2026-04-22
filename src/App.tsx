@@ -261,7 +261,9 @@ export default function App() {
           className="max-w-5xl mx-auto flex justify-between items-center px-6 md:px-8 py-4 rounded-full border border-transparent"
         >
           <div className="flex items-center gap-3">
-            <img src="/ausphira-new-logo.png" alt="Ausphira Logo" className="h-[48px] md:h-[60px] w-auto object-contain" />
+            <span className="text-2xl md:text-3xl tracking-[0.2em] font-black font-display text-navy-950 uppercase">
+              AUS<span className="text-gold-600">PHIRA</span>
+            </span>
           </div>
           <div className="hidden md:flex items-center space-x-10 text-xs font-display font-medium uppercase tracking-widest text-navy-900">
             <a href="#services" className="hover:text-gold-600 transition-colors duration-300">Services</a>
