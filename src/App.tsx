@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Phone, 
   Mail, 
@@ -15,23 +15,71 @@ import {
   Building2,
   ArrowRight,
   ArrowUpRight,
-  Star
+  Star,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence, useInView, animate } from 'motion/react';
+
+const Counter = ({ value, suffix = "", duration = 2.5 }: { value: number, suffix?: string, duration?: number }) => {
+  const ref = React.useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  
+  useEffect(() => {
+    if (inView && ref.current) {
+      const controls = animate(0, value, {
+        duration,
+        ease: "easeOut",
+        onUpdate: (v) => {
+          if (ref.current) ref.current.textContent = Math.floor(v) + suffix;
+        }
+      });
+      return () => controls.stop();
+    }
+  }, [inView, value, suffix, duration]);
+  
+  return <span ref={ref}>0{suffix}</span>;
+};
 
 export default function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  const heroSlides = [
+    // E-commerce & Retail (Luxury abstract storefront/digital commerce)
+    "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=2850&q=80",
+    // Imports (Global trade scale/containers at sunset)
+    "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2850&q=80",
+    // Logistics (Cranes/Port/Transport)
+    "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=2850&q=80",
+    // Trading (Financial data / modern architecture overlay)
+    "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=2850&q=80",
+    // Digital Marketing (Tech strategy/Global reach)
+    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2850&q=80"
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % heroSlides.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
+
   const { scrollYProgress, scrollY } = useScroll();
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   
-  const navBg = useTransform(scrollY, [0, 100], ['rgba(10, 17, 40, 0)', 'rgba(10, 17, 40, 0.8)']);
-  const navBorder = useTransform(scrollY, [0, 100], ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.1)']);
-  const navBlur = useTransform(scrollY, [0, 100], ['blur(0px)', 'blur(24px)']);
-  const navShadow = useTransform(scrollY, [0, 100], ['0px 0px 0px rgba(0,0,0,0)', '0px 25px 50px -12px rgba(0,0,0,0.5)']);
+  const navBg = useTransform(scrollY, [0, 100], ['rgba(255, 255, 255, 0.95)', 'rgba(255, 255, 255, 0.98)']);
+  const navBorder = useTransform(scrollY, [0, 100], ['rgba(226, 232, 240, 0.8)', 'rgba(226, 232, 240, 1)']);
+  const navBlur = useTransform(scrollY, [0, 100], ['blur(8px)', 'blur(24px)']);
+  const navShadow = useTransform(scrollY, [0, 100], ['0px 4px 20px rgba(0,0,0,0.05)', '0px 25px 50px -12px rgba(0,0,0,0.15)']);
   const navPaddingTop = useTransform(scrollY, [0, 100], ['24px', '16px']);
 
   // Hero banner scroll physics
   const heroBgScale = useTransform(scrollY, [0, 1000], [1, 1.3]);
-  const heroBgOpacity = useTransform(scrollY, [0, 800], [0.4, 0]);
+  const heroBgOpacity = useTransform(scrollY, [0, 800], [0.6, 0]);
+  const heroTextParallax = useTransform(scrollY, [0, 800], [0, 200]);
 
   // About section parallax physics
   const aboutRef = React.useRef<HTMLElement>(null);
@@ -43,12 +91,13 @@ export default function App() {
 
   const businessInfo = {
     name: "AUSPHIRA",
-    tagline: "Building a Portfolio",
-    tagline2: "of Success.",
-    address: "771/2, Block R1, Phase 2, Johar Town Lahore",
-    phone: "+923331442880",
-    phoneDisplay: "+92 333 1442 880",
-    email: "ausphiraofficial@gmail.com",
+    tagline: "BUILDING TODAY,",
+    tagline2: "GROWING TOMORROW",
+    address: "771/2, Block R1, Phase 2, Johar Town, Lahore",
+    phone: "+92333-1442880",
+    phoneDisplay: "+92 333 1442880",
+    email: "info@ausphira.com",
+    website: "www.ausphira.com",
     city: "Lahore",
   };
 
@@ -79,40 +128,40 @@ export default function App() {
 
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
   };
 
   const heroTopReveal = {
-    hidden: { opacity: 0, y: 20, filter: "blur(12px)", letterSpacing: "0.3em" },
+    hidden: { opacity: 0, y: 30, filter: "blur(12px)", letterSpacing: "0.4em" },
     visible: { 
       opacity: 1, 
       y: 0, 
       filter: "blur(0px)", 
-      letterSpacing: "-0.03em", 
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+      letterSpacing: "-0.02em", 
+      transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } 
     }
   };
 
   const heroMiddleReveal = {
-    hidden: { opacity: 0, y: 24, scale: 0.8, filter: "blur(12px)", rotate: -2 },
+    hidden: { opacity: 0, y: 40, scale: 0.85, filter: "blur(16px)", rotate: -4 },
     visible: { 
       opacity: 1, 
       y: -16, 
       scale: 1, 
       filter: "blur(0px)", 
       rotate: 0,
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } 
+      transition: { duration: 1.8, ease: [0.22, 1, 0.36, 1] } 
     }
   };
 
   const heroBottomReveal = {
-    hidden: { opacity: 0, y: 20, filter: "blur(12px)", letterSpacing: "0.3em" },
+    hidden: { opacity: 0, y: 30, filter: "blur(12px)", letterSpacing: "0.4em" },
     visible: { 
       opacity: 1, 
       y: 0, 
       filter: "blur(0px)", 
-      letterSpacing: "-0.05em", 
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+      letterSpacing: "-0.04em", 
+      transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] } 
     }
   };
 
@@ -144,7 +193,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-navy-950 text-navy-100 font-sans selection:bg-gold-500/30 selection:text-white">
+    <div className="relative min-h-screen bg-slate-50 text-navy-900 font-sans selection:bg-gold-500/30 selection:text-navy-950">
       {/* SCROLL PROGRESS BAR */}
       <motion.div 
         className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-gold-500 via-gold-300 to-gold-400 origin-left z-[100]"
@@ -161,7 +210,7 @@ export default function App() {
 
       {/* Ambient Parallax Lights */}
       <div className="fixed inset-0 z-0 pointer-events-none flex justify-center items-center overflow-hidden">
-        <motion.div style={{ y: backgroundY }} className="relative w-full h-full">
+        <motion.div style={{ y: backgroundY }} className="relative w-full h-full opacity-50 mix-blend-multiply">
           <motion.div
             animate={{ 
               x: ["0%", "15%", "-10%", "0%"], 
@@ -170,7 +219,7 @@ export default function App() {
               opacity: [0.3, 0.5, 0.3]
             }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] bg-gold-500/10 rounded-full blur-[120px] mix-blend-screen"
+            className="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] bg-gold-400/20 rounded-full blur-[120px]"
           />
           <motion.div
             animate={{ 
@@ -180,7 +229,7 @@ export default function App() {
               opacity: [0.2, 0.4, 0.2]
             }}
             transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[10%] right-[10%] w-[65vw] h-[65vw] bg-gold-700/10 rounded-full blur-[140px] mix-blend-screen"
+            className="absolute bottom-[10%] right-[10%] w-[65vw] h-[65vw] bg-navy-400/10 rounded-full blur-[140px]"
           />
           <motion.div
             animate={{ 
@@ -188,7 +237,7 @@ export default function App() {
               opacity: [0.3, 0.5, 0.3]
             }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[50vw] bg-white/5 rounded-full blur-[130px] mix-blend-screen"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[50vw] bg-slate-300/30 rounded-full blur-[130px]"
           />
         </motion.div>
       </div>
@@ -212,30 +261,41 @@ export default function App() {
           className="max-w-5xl mx-auto flex justify-between items-center px-6 md:px-8 py-4 rounded-full border border-transparent"
         >
           <div className="flex items-center gap-3">
-            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-              <circle cx="50" cy="50" r="46" stroke="url(#goldGradient)" strokeWidth="4"/>
-              <path d="M50 20 L25 80 L35 80 L50 40 L65 80 L75 80 Z" fill="url(#goldGradient)"/>
-              <path d="M20 70 Q 50 45 80 70" stroke="url(#goldGradient)" strokeWidth="6" fill="none" strokeLinecap="round"/>
-              <defs>
-                <linearGradient id="goldGradient" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#EADCB6"/>
-                  <stop offset="0.5" stopColor="#C8A96F"/>
-                  <stop offset="1" stopColor="#93743B"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <span className="font-display text-xl md:text-2xl tracking-[0.2em] font-black text-white uppercase mt-1">
-              AUS<span className="text-gold-500">PHIRA</span>
-            </span>
+            <img src="/ausphira-new-logo.png" alt="Ausphira Logo" className="h-[48px] md:h-[60px] w-auto object-contain" />
           </div>
-          <div className="hidden md:flex items-center space-x-10 text-xs font-display font-medium uppercase tracking-widest text-slate-300">
-            <a href="#services" className="hover:text-gold-400 transition-colors duration-300">Services</a>
-            <a href="#about" className="hover:text-gold-400 transition-colors duration-300">About Us</a>
-            <a href="#contact" className="px-6 py-2.5 bg-white text-navy-950 hover:bg-gold-400 hover:shadow-[0_0_20px_rgba(200,169,111,0.3)] transition-all duration-500 rounded-full font-bold">
+          <div className="hidden md:flex items-center space-x-10 text-xs font-display font-medium uppercase tracking-widest text-navy-900">
+            <a href="#services" className="hover:text-gold-600 transition-colors duration-300">Services</a>
+            <a href="#about" className="hover:text-gold-600 transition-colors duration-300">About Us</a>
+            <a href="#contact" className="px-6 py-2.5 bg-navy-950 text-white hover:bg-gold-500 hover:shadow-[0_0_20px_rgba(203,162,88,0.4)] transition-all duration-500 rounded-full font-bold">
               Contact
             </a>
           </div>
+          
+          <button 
+            className="md:hidden text-navy-950 hover:text-gold-500 transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+          </button>
         </motion.div>
+
+        {/* MOBILE MENU DROPDOWN */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-24 left-6 right-6 bg-white/95 backdrop-blur-xl border border-slate-200 p-6 rounded-2xl shadow-2xl md:hidden flex flex-col space-y-6"
+            >
+              <a onClick={() => setIsMobileMenuOpen(false)} href="#services" className="text-navy-950 font-display text-lg tracking-widest uppercase hover:text-gold-600 transition-colors">Services</a>
+              <a onClick={() => setIsMobileMenuOpen(false)} href="#about" className="text-navy-950 font-display text-lg tracking-widest uppercase hover:text-gold-600 transition-colors">About Us</a>
+              <a onClick={() => setIsMobileMenuOpen(false)} href="#contact" className="px-6 py-4 bg-navy-950 text-white text-center uppercase tracking-widest hover:bg-gold-500 transition-all duration-500 rounded-full font-bold">
+                Contact Now
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       <main className="relative z-10 w-full overflow-hidden">
@@ -247,24 +307,19 @@ export default function App() {
             style={{ scale: heroBgScale, opacity: heroBgOpacity }}
             className="absolute inset-0 pointer-events-none origin-center z-0"
           >
-            <motion.div 
-              animate={{ 
-                scale: [1, 1.08],
-                x: ["0%", "-2%"],
-                y: ["0%", "1%"]
-              }}
-              transition={{ duration: 25, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-              className="w-full h-full"
-            >
+            <AnimatePresence mode="popLayout">
               <motion.div 
-                initial={{ scale: 1.2, filter: "blur(24px)", opacity: 0 }}
-                animate={{ scale: 1, filter: "blur(0px)", opacity: 1 }}
-                transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] bg-cover bg-bottom mix-blend-overlay grayscale contrast-125"
+                key={currentSlideIndex}
+                initial={{ scale: 1.05, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 3.5, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full bg-cover bg-center"
+                style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}
               />
-            </motion.div>
+            </AnimatePresence>
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-transparent to-navy-950 pointer-events-none z-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-navy-900/60 to-slate-50 pointer-events-none z-0"></div>
 
           {/* Hero-specific localized slow-moving flares */}
           <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0 mix-blend-screen">
@@ -298,6 +353,7 @@ export default function App() {
 
           <div className="max-w-7xl mx-auto w-full text-center flex flex-col items-center relative z-10">
             <motion.div 
+              style={{ y: heroTextParallax }}
               initial="hidden"
               animate="visible"
               variants={{
@@ -327,14 +383,14 @@ export default function App() {
                 <motion.span variants={heroBottomReveal} className="block font-black mt-2 uppercase relative z-10 w-full text-center">OF SUCCESS.</motion.span>
               </motion.h1>
 
-              <motion.p variants={fadeUp} className="mt-8 text-lg md:text-xl xl:text-2xl text-slate-300 font-light max-w-2xl leading-relaxed">
+              <motion.p variants={fadeUp} className="mt-8 text-lg md:text-xl xl:text-2xl text-slate-200 font-light max-w-2xl leading-relaxed drop-shadow">
                 Luxury business solutions for a global market, operated with uncompromised local excellence.
               </motion.p>
 
               <motion.div variants={fadeUp} className="mt-16 flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
                 <a 
                   href={phoneLink}
-                  className="w-full sm:w-auto group relative px-8 py-4 bg-white text-navy-950 font-display font-bold uppercase tracking-widest text-sm rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] active:scale-95 border border-transparent hover:border-white/50"
+                  className="w-full sm:w-auto group relative px-8 py-4 bg-white text-navy-950 font-display font-bold uppercase tracking-widest text-sm rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] active:scale-95 border border-transparent"
                 >
                   <div className="absolute inset-0 bg-gold-400 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
                   <span className="relative flex items-center justify-center gap-2 group-hover:text-navy-950 transition-colors duration-500">
@@ -345,9 +401,9 @@ export default function App() {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto group px-8 py-4 bg-transparent border border-white/20 text-white font-display font-bold uppercase tracking-widest text-sm rounded-full flex items-center justify-center gap-2 hover:bg-white/5 hover:border-gold-400/50 hover:text-gold-300 transition-all duration-500 hover:shadow-[0_0_30px_-10px_rgba(200,169,111,0.2)]"
+                  className="w-full sm:w-auto group px-8 py-4 bg-transparent border border-white/30 text-white font-display font-bold uppercase tracking-widest text-sm rounded-full flex items-center justify-center gap-2 hover:bg-white/10 hover:border-gold-400/80 hover:text-gold-300 transition-all duration-500 hover:shadow-[0_0_30px_-10px_rgba(200,169,111,0.3)]"
                 >
-                  WhatsApp Us <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+                  WhatsApp Us <ArrowUpRight className="w-4 h-4 text-gold-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
                 </a>
               </motion.div>
             </motion.div>
@@ -355,7 +411,7 @@ export default function App() {
         </section>
 
         {/* INFINITE SCROLLING TEXT BAND */}
-        <div className="w-full overflow-hidden border-y border-white/5 bg-navy-950/80 backdrop-blur-md py-5 relative z-10 flex">
+        <div className="w-full overflow-hidden border-y border-slate-200 bg-white/80 backdrop-blur-md py-5 relative z-10 flex shadow-sm">
           <motion.div
             className="flex whitespace-nowrap items-center w-max"
             animate={{ x: ["0%", "-50%"] }}
@@ -363,17 +419,17 @@ export default function App() {
           >
             {[...Array(2)].map((_, i) => (
               <div key={i} className="flex items-center">
-                <span className="text-gold-100 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Ecommerce Ventures</span>
+                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Ecommerce Ventures</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-gold-100 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Artificial Intelligence</span>
+                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Artificial Intelligence</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-gold-100 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Global Logistics</span>
+                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Global Logistics</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-gold-100 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Corporate Strategy</span>
+                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Corporate Strategy</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-gold-100 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Digital Solutions</span>
+                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Digital Solutions</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-gold-100 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Business Development</span>
+                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Business Development</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
               </div>
             ))}
@@ -391,12 +447,12 @@ export default function App() {
               className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8"
             >
               <div>
-                <motion.span variants={fadeUp} className="text-gold-500 font-display font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Core Divisions</motion.span>
-                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-white max-w-2xl">
+                <motion.span variants={fadeUp} className="text-gold-600 font-display font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Core Divisions</motion.span>
+                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-navy-950 max-w-2xl">
                   A multi-disciplinary spectrum of expertise.
                 </motion.h2>
               </div>
-              <motion.p variants={fadeUp} className="text-slate-400 max-w-md font-light">
+              <motion.p variants={fadeUp} className="text-slate-600 max-w-md font-light">
                 Specialized departments working cohesively under the AUSPHIRA umbrella to deliver unparalleled global market impact.
               </motion.p>
             </motion.div>
@@ -417,13 +473,13 @@ export default function App() {
                 className="md:col-span-12 lg:col-span-7 md:row-span-2 glass-panel glass-panel-hover rounded-[32px] p-8 md:p-12 relative overflow-hidden group min-h-[400px] lg:min-h-0 flex flex-col justify-end"
               >
                 <div className="absolute inset-0 opacity-30 group-hover:opacity-70 transform group-hover:scale-105 transition-all duration-1000 ease-out bg-[url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay filter grayscale group-hover:grayscale-0"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-900/60 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-white/70"></div>
                 <div className="relative z-10 transform translate-y-0 group-hover:-translate-y-2 transition-transform duration-700 ease-out">
-                  <div className="w-16 h-16 bg-gold-500/20 text-gold-400 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-gold-500/20 group-hover:bg-gold-500/30 group-hover:scale-110 transition-all duration-500">
-                    <ShoppingCart className="w-8 h-8 group-hover:text-gold-300 transition-colors" />
+                  <div className="w-16 h-16 bg-gold-500/10 text-gold-600 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-gold-500/20 group-hover:bg-gold-500/20 group-hover:scale-110 transition-all duration-500">
+                    <ShoppingCart className="w-8 h-8 group-hover:text-gold-700 transition-colors" />
                   </div>
-                  <h3 className="text-3xl font-display font-bold text-white mb-3 tracking-tight group-hover:text-gold-100 transition-colors">Ecommerce Ventures</h3>
-                  <p className="text-slate-300 text-lg max-w-md font-light leading-relaxed group-hover:text-white transition-colors">Architecting, launching, and scaling high-end digital storefronts designed to dominate global retail markets.</p>
+                  <h3 className="text-3xl font-display font-bold text-navy-950 mb-3 tracking-tight group-hover:text-gold-600 transition-colors">Ecommerce Ventures</h3>
+                  <p className="text-slate-600 text-lg max-w-md font-light leading-relaxed group-hover:text-navy-900 transition-colors">Architecting, launching, and scaling high-end digital storefronts designed to dominate global retail markets.</p>
                 </div>
               </motion.div>
 
@@ -518,7 +574,7 @@ export default function App() {
         </section>
 
         {/* PARALLAX ABOUT SECTION */}
-        <section id="about" ref={aboutRef} className="py-32 relative px-4 md:px-8 border-y border-white/5 bg-navy-950/80">
+        <section id="about" ref={aboutRef} className="py-32 relative px-4 md:px-8 border-y border-slate-200 bg-white">
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="order-2 lg:order-1 relative aspect-[4/5] rounded-[32px] overflow-hidden group">
               <div className="absolute inset-0 bg-gold-500/10 mix-blend-color z-10 pointer-events-none group-hover:bg-transparent transition-colors duration-700"></div>
@@ -532,9 +588,9 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-900/50 to-transparent z-10 pointer-events-none"></div>
               
               <div className="absolute bottom-10 left-10 right-10 z-20">
-                <div className="glass-panel rounded-2xl p-6 backdrop-blur-2xl">
-                  <div className="text-4xl font-display font-black text-white mb-1">Born in Lahore.</div>
-                  <div className="text-gold-400 font-display tracking-[0.2em] text-sm font-bold uppercase">Operating Globally.</div>
+                <div className="glass-panel rounded-2xl p-6 backdrop-blur-md border hover:bg-white transition-colors duration-500">
+                  <div className="text-4xl font-display font-black text-navy-950 mb-1">Born in Lahore.</div>
+                  <div className="text-gold-600 font-display tracking-[0.2em] text-sm font-bold uppercase">Operating Globally.</div>
                 </div>
               </div>
             </div>
@@ -547,27 +603,49 @@ export default function App() {
                 variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
               >
                 <motion.span variants={fadeUp} className="text-gold-500 font-display font-bold tracking-[0.2em] text-sm uppercase mb-6 block">The Collective</motion.span>
-                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-white mb-10 leading-[1.1]">
+                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-navy-950 mb-10 leading-[1.1]">
                   A multi-disciplinary approach to modern progress.
                 </motion.h2>
                 
-                <div className="space-y-6 text-slate-300 text-lg font-light leading-relaxed mb-12">
+                <div className="space-y-6 text-slate-600 text-lg font-light leading-relaxed mb-12">
                   <motion.p variants={fadeUp}>
-                    From our strategic foundation in Lahore, <strong className="text-white font-semibold font-display">AUSPHIRA</strong> operates as a central nervous system for diverse ventures. We recognize that modern business demands radical adaptability, high-tier technological integration, and an unobstructed global perspective.
+                    From our strategic foundation in Lahore, <strong className="text-navy-950 font-semibold font-display">AUSPHIRA</strong> operates as a central nervous system for diverse ventures. We recognize that modern business demands radical adaptability, high-tier technological integration, and an unobstructed global perspective.
                   </motion.p>
                   <motion.p variants={fadeUp}>
                     Whether launching consumer-facing digital brands, streamlining trade through large-scale import/export operations, or leveraging the latest in artificial intelligence networks, we maintain a singular, uncompromising focus on tangible supremacy in every sector we touch.
                   </motion.p>
                 </div>
 
-                <motion.div variants={fadeUp} className="grid grid-cols-2 gap-8 pt-8 border-t border-white/10">
+                <motion.div variants={fadeUp} className="grid grid-cols-2 gap-8 pt-8 border-t border-slate-200">
                   <div>
-                    <h4 className="text-white font-display text-2xl font-bold mb-3 tracking-tight">Global Vision</h4>
-                    <p className="text-slate-400 text-sm leading-relaxed">Targeting international markets with deep-rooted local expertise and strategic precision.</p>
+                    <h4 className="text-navy-950 font-display text-2xl font-bold mb-3 tracking-tight">Global Vision</h4>
+                    <p className="text-slate-500 text-sm leading-relaxed">Targeting international markets with deep-rooted local expertise and strategic precision.</p>
                   </div>
                   <div>
-                    <h4 className="text-white font-display text-2xl font-bold mb-3 tracking-tight">Tech-Forward</h4>
-                    <p className="text-slate-400 text-sm leading-relaxed">Embracing AI and advanced digital architecture to ensure hyper-scalability.</p>
+                    <h4 className="text-navy-950 font-display text-2xl font-bold mb-3 tracking-tight">Tech-Forward</h4>
+                    <p className="text-slate-500 text-sm leading-relaxed">Embracing AI and advanced digital architecture to ensure hyper-scalability.</p>
+                  </div>
+                </motion.div>
+
+                {/* ANIMATED STATS COUNTER */}
+                <motion.div variants={fadeUp} className="grid grid-cols-2 lg:grid-cols-3 gap-8 pt-10 mt-10 border-t border-slate-200">
+                  <div>
+                    <div className="text-4xl lg:text-5xl font-display font-black text-gold-600 mb-2">
+                       <Counter value={50} suffix="+" />
+                    </div>
+                    <div className="text-navy-950 font-bold text-xs tracking-widest uppercase">Global Partners</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl lg:text-5xl font-display font-black text-gold-600 mb-2">
+                       <Counter value={120} suffix="+" />
+                    </div>
+                    <div className="text-navy-950 font-bold text-xs tracking-widest uppercase">Projects Delivered</div>
+                  </div>
+                  <div className="col-span-2 lg:col-span-1">
+                    <div className="text-4xl lg:text-5xl font-display font-black text-gold-600 mb-2">
+                       <Counter value={15} suffix="+" />
+                    </div>
+                    <div className="text-navy-950 font-bold text-xs tracking-widest uppercase">Markets Reached</div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -576,7 +654,7 @@ export default function App() {
         </section>
 
         {/* GALLERY SECTION */}
-        <section id="gallery" className="py-32 relative px-4 md:px-8 bg-navy-950 border-t border-white/5">
+        <section id="gallery" className="py-32 relative px-4 md:px-8 bg-slate-50 border-t border-slate-200">
           <div className="max-w-[1400px] mx-auto">
             <motion.div 
               initial="hidden"
@@ -586,8 +664,8 @@ export default function App() {
               className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8"
             >
               <div>
-                <motion.span variants={fadeUp} className="text-gold-500 font-display font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Visual Presence</motion.span>
-                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-white mb-0">
+                <motion.span variants={fadeUp} className="text-gold-600 font-display font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Visual Presence</motion.span>
+                <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-navy-950 mb-0">
                   Global operations <br className="hidden md:block"/><span className="text-gradient-gold">in action.</span>
                 </motion.h2>
               </div>
@@ -618,8 +696,8 @@ export default function App() {
                    />
                    <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700"></div>
                    <div className="absolute bottom-6 left-6 right-6">
-                     <div className="w-8 h-8 rounded-full bg-gold-500/20 mb-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                       <ArrowUpRight className="w-4 h-4 text-gold-400" />
+                     <div className="w-8 h-8 rounded-full bg-white/20 mb-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                       <ArrowUpRight className="w-4 h-4 text-white" />
                      </div>
                      <p className="text-white font-display font-bold tracking-widest uppercase text-xs">
                        {img.alt}
@@ -632,8 +710,8 @@ export default function App() {
         </section>
 
         {/* TESTIMONIALS SECTION */}
-        <section id="testimonials" className="py-32 relative px-4 md:px-8 border-t border-white/5 bg-[#030713]">
-          <div className="absolute top-0 right-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-900/10 via-navy-950/0 to-transparent opacity-50 pointer-events-none"></div>
+        <section id="testimonials" className="py-32 relative px-4 md:px-8 border-t border-slate-200 bg-white">
+          <div className="absolute top-0 right-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-500/5 via-white/0 to-transparent opacity-50 pointer-events-none"></div>
           
           <div className="max-w-[1400px] mx-auto relative z-10">
             <motion.div 
@@ -643,8 +721,8 @@ export default function App() {
               variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
               className="text-center mb-16"
             >
-              <motion.span variants={fadeUp} className="text-gold-500 font-display font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Client Partnerships</motion.span>
-              <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-white mb-6">
+              <motion.span variants={fadeUp} className="text-gold-600 font-display font-bold tracking-[0.2em] text-sm uppercase mb-4 block">Client Partnerships</motion.span>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-display font-black tracking-tight text-navy-950 mb-6">
                 A reputation built on <span className="text-gradient-gold">results.</span>
               </motion.h2>
             </motion.div>
@@ -665,18 +743,18 @@ export default function App() {
                         <Star key={i} className="w-4 h-4 fill-current" />
                       ))}
                     </div>
-                    <p className="text-slate-300 text-lg font-light leading-relaxed mb-10 italic">
+                    <p className="text-slate-600 text-lg font-light leading-relaxed mb-10 italic">
                       "{testimonial.text}"
                     </p>
                   </div>
                   
-                  <div className="flex items-center gap-4 border-t border-white/10 pt-6 mt-auto">
-                    <div className="w-12 h-12 rounded-full bg-navy-900 border border-gold-500/20 flex items-center justify-center text-gold-400 font-display font-bold shadow-inner">
+                  <div className="flex items-center gap-4 border-t border-slate-100 pt-6 mt-auto">
+                    <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-navy-800 font-display font-bold shadow-inner">
                       {testimonial.name[0]}
                     </div>
                     <div className="font-display">
-                      <div className="text-white font-bold tracking-wide">{testimonial.name}</div>
-                      <div className="text-gold-500 text-xs tracking-[0.15em] uppercase font-medium mt-1">{testimonial.role}</div>
+                      <div className="text-navy-950 font-bold tracking-wide">{testimonial.name}</div>
+                      <div className="text-gold-600 text-xs tracking-[0.15em] uppercase font-medium mt-1">{testimonial.role}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -686,8 +764,8 @@ export default function App() {
         </section>
 
         {/* HUGE CTA SECTION */}
-        <section id="contact" className="py-32 md:py-48 relative overflow-hidden flex items-center justify-center">
-          <div className="absolute inset-0 bg-gold-900/5 z-0 pointer-events-none"></div>
+        <section id="contact" className="py-32 md:py-48 relative overflow-hidden flex items-center justify-center bg-navy-950 border-t border-slate-200">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold-500/10 via-navy-950/0 to-transparent z-0 pointer-events-none"></div>
           
           <div className="max-w-5xl mx-auto px-6 relative z-10 text-center">
             <motion.div 
@@ -759,6 +837,12 @@ export default function App() {
                       <Mail className="w-4 h-4 text-gold-400 group-hover:text-gold-300 transition-colors" />
                     </div>
                     <span className="truncate group-hover:translate-x-2 transition-transform duration-500">{businessInfo.email}</span>
+                  </a>
+                  <a href={`https://${businessInfo.website}`} target="_blank" rel="noopener noreferrer" className="hover:text-gold-300 transition-colors duration-500 flex items-center group">
+                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center mr-4 group-hover:border-gold-500/50 group-hover:bg-gold-500/10 group-hover:scale-110 transition-all duration-500">
+                      <Globe2 className="w-4 h-4 text-gold-400 group-hover:text-gold-300 transition-colors" />
+                    </div>
+                    <span className="truncate group-hover:translate-x-2 transition-transform duration-500">{businessInfo.website}</span>
                   </a>
                 </div>
               </div>
