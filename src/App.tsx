@@ -49,7 +49,7 @@ export default function App() {
 
   const heroSlides = [
     // E-commerce & Retail (Luxury abstract storefront/digital commerce)
-    "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=2850&q=80",
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2850&q=80",
     // Imports (Global trade scale/containers at sunset)
     "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2850&q=80",
     // Logistics (Cranes/Port/Transport)
@@ -319,7 +319,9 @@ export default function App() {
               />
             </AnimatePresence>
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-navy-900/60 to-slate-50 pointer-events-none z-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/80 via-navy-950/70 to-slate-50 pointer-events-none z-0"></div>
+          {/* Enhanced localized dark radial gradient to ensure text remains highly visible */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-navy-950/60 via-transparent to-transparent pointer-events-none z-0"></div>
 
           {/* Hero-specific localized slow-moving flares */}
           <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0 mix-blend-screen">
@@ -374,16 +376,16 @@ export default function App() {
                   hidden: { opacity: 1 },
                   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
                 }}
-                className="font-display text-[10vw] sm:text-[8vw] lg:text-[85px] xl:text-[105px] leading-[1] text-white font-medium mb-1 drop-shadow-lg flex flex-col items-center text-center w-full"
+                className="font-display text-[10vw] sm:text-[8vw] lg:text-[85px] xl:text-[105px] leading-[1] text-white font-medium mb-1 drop-shadow-2xl flex flex-col items-center text-center w-full"
               >
-                <motion.span variants={heroTopReveal} className="block mb-2">BUILDING A</motion.span>
-                <motion.span variants={heroMiddleReveal} className="font-serif italic font-light text-gradient-gold lowercase block text-[12vw] sm:text-[10vw] lg:text-[100px] xl:text-[120px] relative z-20">
+                <motion.span variants={heroTopReveal} className="block mb-2 drop-shadow-xl">BUILDING A</motion.span>
+                <motion.span variants={heroMiddleReveal} className="font-serif italic font-light text-gradient-gold lowercase block text-[12vw] sm:text-[10vw] lg:text-[100px] xl:text-[120px] relative z-20 drop-shadow-xl">
                   portfolio
                 </motion.span>
-                <motion.span variants={heroBottomReveal} className="block font-black mt-2 uppercase relative z-10 w-full text-center">OF SUCCESS.</motion.span>
+                <motion.span variants={heroBottomReveal} className="block font-black mt-2 uppercase relative z-10 w-full text-center drop-shadow-xl">OF SUCCESS.</motion.span>
               </motion.h1>
 
-              <motion.p variants={fadeUp} className="mt-8 text-lg md:text-xl xl:text-2xl text-slate-200 font-light max-w-2xl leading-relaxed drop-shadow">
+              <motion.p variants={fadeUp} className="mt-8 text-lg md:text-xl xl:text-2xl text-slate-100 font-light max-w-2xl leading-relaxed drop-shadow-lg">
                 Luxury business solutions for a global market, operated with uncompromised local excellence.
               </motion.p>
 
