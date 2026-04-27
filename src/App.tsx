@@ -19,7 +19,9 @@ import {
   Menu,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Truck,
+  Lightbulb
 } from 'lucide-react';
 import { motion, useScroll, useTransform, AnimatePresence, useInView, animate } from 'motion/react';
 
@@ -261,7 +263,12 @@ export default function App() {
           className="max-w-5xl mx-auto flex justify-between items-center px-6 md:px-8 py-4 rounded-full border border-transparent"
         >
           <div className="flex items-center gap-3">
-            <img src="/ausphira-group-logo.png" alt="Ausphira Group Logo" className="h-[54px] md:h-[68px] w-auto object-contain" />
+            <span className="text-2xl md:text-3xl tracking-[0.2em] font-black font-display text-navy-950 uppercase border-r-2 border-slate-300 pr-4">
+              AUS<span className="text-gold-600">PHIRA</span>
+            </span>
+            <span className="hidden sm:flex flex-col">
+              <span className="text-[9px] font-bold tracking-[0.1em] text-navy-950 leading-tight">(PRIVATE) LIMITED</span>
+            </span>
           </div>
           <div className="hidden md:flex items-center space-x-10 text-xs font-display font-medium uppercase tracking-widest text-navy-900">
             <a href="#services" className="hover:text-gold-600 transition-colors duration-300">Services</a>
@@ -300,142 +307,143 @@ export default function App() {
 
       <main className="relative z-10 w-full overflow-hidden">
         
-        {/* HERO SECTION */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 overflow-hidden">
-          {/* Professional animated hero banner imagery */}
-          <motion.div 
-            style={{ scale: heroBgScale, opacity: heroBgOpacity }}
-            className="absolute inset-0 pointer-events-none origin-center z-0"
-          >
-            <AnimatePresence mode="popLayout">
-              <motion.div 
-                key={currentSlideIndex}
-                initial={{ scale: 1.05, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 3.5, ease: "easeInOut" }}
-                className="absolute inset-0 w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}
-              />
-            </AnimatePresence>
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/80 via-navy-950/70 to-slate-50 pointer-events-none z-0"></div>
-          {/* Enhanced localized dark radial gradient to ensure text remains highly visible */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-navy-950/60 via-transparent to-transparent pointer-events-none z-0"></div>
+        {/* HERO SECTION MATCHING BANNER */}
+        <section className="relative min-h-[100vh] bg-white overflow-hidden flex flex-col md:flex-row pt-24 md:pt-0 pb-10 md:pb-32 lg:pb-40">
+          {/* Subtle dotted background pattern */}
+          <div className="absolute inset-0 z-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#CBD5E1 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
 
-          {/* Hero-specific localized slow-moving flares */}
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0 mix-blend-screen">
-            <motion.div
-              animate={{
-                rotate: [0, 15, -10, 0],
-                scale: [1, 1.1, 0.95, 1],
-                opacity: [0.15, 0.3, 0.15]
-              }}
-              transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-[120vw] h-[40vw] min-w-[800px] bg-gradient-to-r from-transparent via-gold-500/20 to-transparent blur-[100px] -rotate-12"
-            />
-            {/* Cinematic light streaks */}
-            <motion.div
-              animate={{
-                x: ["-150%", "150%"],
-                opacity: [0, 0.8, 0]
-              }}
-              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute top-[40%] w-[80vw] min-w-[600px] h-[2px] bg-gradient-to-r from-transparent via-white/40 to-transparent blur-[2px] -rotate-12"
-            />
-            <motion.div
-              animate={{
-                x: ["100%", "-100%"],
-                opacity: [0, 0.4, 0]
-              }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 8 }}
-              className="absolute top-[60%] w-[60vw] min-w-[400px] h-[1px] bg-gradient-to-r from-transparent via-gold-300/30 to-transparent blur-[1px] rotate-45"
-            />
+          {/* Right Area: Layered Slanted Polygons for Image & Borders */}
+          <div className="absolute top-0 right-0 h-[60vh] md:h-full w-full md:w-[65%] lg:w-[60%] z-10 hidden md:block">
+            {/* Gold Border Base */}
+            <div 
+              className="absolute inset-0 bg-gold-500 z-10 shadow-xl" 
+              style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
+            ></div>
+            
+            {/* Navy Stripe Base */}
+            <div 
+              className="absolute inset-0 bg-navy-950 z-20" 
+              style={{ clipPath: 'polygon(calc(15% + 15px) 0, 100% 0, 100% 100%, 15px 100%)' }}
+            ></div>
+
+            {/* Image Container */}
+            <div 
+              className="absolute inset-0 z-30 shadow-2xl" 
+              style={{ clipPath: 'polygon(calc(15% + 40px) 0, 100% 0, 100% 100%, 40px 100%)' }}
+            >
+              <div 
+                className="absolute inset-0 pointer-events-none origin-center"
+              >
+                <AnimatePresence mode="popLayout">
+                  <motion.div 
+                    key={currentSlideIndex}
+                    initial={{ scale: 1.05, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 3.5, ease: "easeInOut" }}
+                    className="absolute inset-0 w-full h-full bg-cover bg-center"
+                    style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}
+                  >
+                  </motion.div>
+                </AnimatePresence>
+                {/* Light overlay to prevent image from dominating completely */}
+                <div className="absolute inset-0 bg-navy-950/20 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-navy-900/40 to-transparent"></div>
+              </div>
+            </div>
           </div>
 
-          <div className="max-w-7xl mx-auto w-full text-center flex flex-col items-center relative z-10">
-            <motion.div 
-              style={{ y: heroTextParallax }}
-              initial="hidden"
-              animate="visible"
-              variants={{
-                visible: { transition: { staggerChildren: 0.15 } }
-              }}
-              className="flex flex-col items-center relative z-10"
-            >
-              <motion.div variants={fadeUp} className="mb-10 relative inline-block">
-                <div className="absolute inset-0 bg-gold-500/20 blur-xl rounded-full"></div>
-                <div className="relative border border-gold-500/30 bg-gold-500/10 px-5 py-2 rounded-full flex items-center space-x-3 backdrop-blur-md">
-                  <div className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse"></div>
-                  <span className="text-xs font-display font-bold tracking-[0.2em] text-gold-300 uppercase">Premier Collective / {businessInfo.city}</span>
-                </div>
+          {/* Left Area: Solid White Content Panel */}
+          <div className="relative z-20 w-full md:w-[50%] lg:w-[48%] flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-16 md:py-32 bg-white/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
+              <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8 hidden md:block">
+                 <div className="w-16 h-1.5 bg-gold-500 mb-6"></div>
               </motion.div>
-
               <motion.h1 
+                initial="hidden" animate="visible"
                 variants={{
                   hidden: { opacity: 1 },
                   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
                 }}
-                className="font-display text-[10vw] sm:text-[8vw] lg:text-[85px] xl:text-[105px] leading-[1] text-white font-medium mb-1 drop-shadow-2xl flex flex-col items-center text-center w-full"
+                className="font-display text-[42px] sm:text-[50px] lg:text-[60px] xl:text-[72px] leading-[1.05] tracking-tight mb-8 drop-shadow-sm"
               >
-                <motion.span variants={heroTopReveal} className="block mb-2 drop-shadow-xl">BUILDING A</motion.span>
-                <motion.span variants={heroMiddleReveal} className="font-serif italic font-light text-gradient-gold lowercase block text-[12vw] sm:text-[10vw] lg:text-[100px] xl:text-[120px] relative z-20 drop-shadow-xl">
-                  portfolio
-                </motion.span>
-                <motion.span variants={heroBottomReveal} className="block font-black mt-2 uppercase relative z-10 w-full text-center drop-shadow-xl">OF SUCCESS.</motion.span>
+                <motion.span variants={fadeUp} className="block font-black text-navy-950">BUILDING CONNECTIONS.</motion.span>
+                <motion.span variants={fadeUp} className="block font-bold text-gold-600 mt-2">DELIVERING EXCELLENCE.</motion.span>
               </motion.h1>
 
-              <motion.p variants={fadeUp} className="mt-8 text-lg md:text-xl xl:text-2xl text-slate-100 font-light max-w-2xl leading-relaxed drop-shadow-lg">
-                Luxury business solutions for a global market, operated with uncompromised local excellence.
+              <motion.p variants={fadeUp} initial="hidden" animate="visible" className="text-lg md:text-xl text-slate-700 font-medium max-w-xl leading-relaxed mb-12 border-l-4 border-gold-400 pl-6 bg-white/50 py-2">
+                <strong className="font-black text-navy-950 block mb-2 text-xl drop-shadow-sm">AUSPHIRA (PRIVATE) LIMITED</strong> 
+                is a diversified business group delivering world-class solutions across global markets.
               </motion.p>
 
-              <motion.div variants={fadeUp} className="mt-16 flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
+              <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
                 <a 
                   href={phoneLink}
-                  className="w-full sm:w-auto group relative px-8 py-4 bg-white text-navy-950 font-display font-bold uppercase tracking-widest text-sm rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] active:scale-95 border border-transparent"
+                  className="w-full sm:w-auto group relative px-8 py-4 bg-navy-950 text-white font-display font-bold uppercase tracking-widest text-sm shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500"
                 >
-                  <div className="absolute inset-0 bg-gold-400 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
+                  <div className="absolute inset-0 bg-gold-500 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
                   <span className="relative flex items-center justify-center gap-2 group-hover:text-navy-950 transition-colors duration-500">
-                    <Phone className="w-4 h-4" /> Call Now
+                    <Phone className="w-4 h-4" /> Connect Now
                   </span>
                 </a>
-                <a 
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto group px-8 py-4 bg-transparent border border-white/30 text-white font-display font-bold uppercase tracking-widest text-sm rounded-full flex items-center justify-center gap-2 hover:bg-white/10 hover:border-gold-400/80 hover:text-gold-300 transition-all duration-500 hover:shadow-[0_0_30px_-10px_rgba(200,169,111,0.3)]"
-                >
-                  WhatsApp Us <ArrowUpRight className="w-4 h-4 text-gold-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
-                </a>
               </motion.div>
-            </motion.div>
+          </div>
+
+          {/* Mobile standard image block */}
+          <div className="relative w-full h-[45vh] md:hidden z-10 border-t-8 border-gold-500 overflow-hidden shadow-inner">
+             <div className="absolute inset-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}></div>
+             <div className="absolute inset-0 bg-navy-950/20 mix-blend-multiply"></div>
           </div>
         </section>
 
-        {/* INFINITE SCROLLING TEXT BAND */}
-        <div className="w-full overflow-hidden border-y border-slate-200 bg-white/80 backdrop-blur-md py-5 relative z-10 flex shadow-sm">
-          <motion.div
-            className="flex whitespace-nowrap items-center w-max"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          >
-            {[...Array(2)].map((_, i) => (
-              <div key={i} className="flex items-center">
-                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Ecommerce Ventures</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Artificial Intelligence</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Global Logistics</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Corporate Strategy</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Digital Solutions</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-                <span className="text-navy-900 font-display font-bold tracking-[0.2em] text-xs uppercase px-8">Business Development</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-500/50"></span>
-              </div>
+        {/* 4 PILLARS OVERLAY (Matching Banner) */}
+        <div className="relative z-30 w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 mt-4 md:-mt-24 lg:-mt-32 mb-24">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 drop-shadow-2xl">
+            {[
+              {
+                title: "IMPORTS", desc: "Global Sourcing\n& Procurement",
+                image: heroSlides[1],
+                icon: <Globe2 className="w-6 h-6 text-white" />
+              },
+              {
+                title: "LOGISTICS", desc: "Supply Chain\n& Distribution",
+                image: heroSlides[2],
+                icon: <Truck className="w-6 h-6 text-white" />
+              },
+              {
+                title: "TRADING", desc: "Wholesale\n& B2B Solutions",
+                image: heroSlides[3],
+                icon: <TrendingUp className="w-6 h-6 text-white" />
+              },
+              {
+                title: "DIGITAL", desc: "Marketing & Digital\nTransformation",
+                image: heroSlides[4],
+                icon: <Lightbulb className="w-6 h-6 text-white" />
+              }
+            ].map((pillar, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 * idx }}
+                className="bg-white border-b-4 border-gold-500 overflow-hidden shadow-lg flex flex-col hover:-translate-y-2 transition-transform duration-300"
+              >
+                <div className="p-6 pb-4 bg-slate-50 flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center shrink-0 shadow-md">
+                    {pillar.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-display font-black text-navy-950 tracking-widest text-lg mb-1">{pillar.title}</h3>
+                    <p className="text-sm font-medium text-slate-600 whitespace-pre-line leading-snug">{pillar.desc}</p>
+                  </div>
+                </div>
+                <div className="relative h-40 w-full overflow-hidden border-t-2 border-white">
+                  <img src={pillar.image} alt={pillar.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-navy-900/10"></div>
+                </div>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* SERVICES BENTO GRID */}
