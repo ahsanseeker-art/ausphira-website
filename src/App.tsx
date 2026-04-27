@@ -50,14 +50,14 @@ export default function App() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const heroSlides = [
-    // E-commerce & Retail (Luxury abstract storefront/digital commerce)
-    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2850&q=80",
-    // Imports (Global trade scale/containers at sunset)
+    // E-commerce (Premium interface / luxury goods)
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=2850&q=80",
+    // Imports (Global trade scale / containers at sunset)
     "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2850&q=80",
     // Logistics (Cranes/Port/Transport)
     "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=2850&q=80",
-    // Trading (Financial data / modern architecture overlay)
-    "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=2850&q=80",
+    // Trading (Ultra Premium Business / Corporate Skyscraper)
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2850&q=80",
     // Digital Marketing (Tech strategy/Global reach)
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2850&q=80"
   ];
@@ -250,7 +250,7 @@ export default function App() {
         animate={{ y: 0 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         style={{ paddingTop: navPaddingTop }}
-        className="fixed top-0 left-0 right-0 z-50 px-6"
+        className="fixed top-0 left-0 right-0 z-50 px-6 pointer-events-none"
       >
         <motion.div 
           style={{ 
@@ -260,21 +260,30 @@ export default function App() {
             WebkitBackdropFilter: navBlur,
             boxShadow: navShadow 
           }}
-          className="max-w-5xl mx-auto flex justify-between items-center px-6 md:px-8 py-4 rounded-full border border-transparent"
+          className="max-w-6xl mx-auto flex justify-between items-center px-6 md:px-10 py-3 rounded-2xl border border-transparent pointer-events-auto"
         >
-          <div className="flex items-center gap-3">
-            <span className="text-2xl md:text-3xl tracking-[0.2em] font-black font-display text-navy-950 uppercase border-r-2 border-slate-300 pr-4">
-              AUS<span className="text-gold-600">PHIRA</span>
-            </span>
-            <span className="hidden sm:flex flex-col">
-              <span className="text-[9px] font-bold tracking-[0.1em] text-navy-950 leading-tight">(PRIVATE) LIMITED</span>
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden bg-navy-950 rounded-lg flex items-center justify-center p-2 shadow-inner group cursor-pointer">
+              <div className="absolute inset-0 bg-gradient-to-br from-navy-800 to-navy-950 opacity-100"></div>
+              {/* Recreating the Ausphira Icon in SVG for ultra-crisp premium look */}
+              <svg viewBox="0 0 100 100" className="w-full h-full relative z-10 drop-shadow-md">
+                <path d="M50 10 L85 90 L65 90 L50 55 L35 90 L15 90 Z" fill="#ffffff" />
+                <path d="M15 85 Q50 60 85 85" fill="none" stroke="#CB9936" strokeWidth="10" strokeLinecap="round" />
+              </svg>
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-black font-display text-navy-950 tracking-[0.15em] leading-none">
+                AUS<span className="text-gold-600">PHIRA</span>
+              </span>
+              <span className="text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-slate-500 mt-1">GROUP</span>
+            </div>
           </div>
-          <div className="hidden md:flex items-center space-x-10 text-xs font-display font-medium uppercase tracking-widest text-navy-900">
-            <a href="#services" className="hover:text-gold-600 transition-colors duration-300">Services</a>
-            <a href="#about" className="hover:text-gold-600 transition-colors duration-300">About Us</a>
-            <a href="#contact" className="px-6 py-2.5 bg-navy-950 text-white hover:bg-gold-500 hover:shadow-[0_0_20px_rgba(203,162,88,0.4)] transition-all duration-500 rounded-full font-bold">
-              Contact
+          <div className="hidden lg:flex items-center space-x-8 text-[11px] font-display font-medium uppercase tracking-[0.2em] text-navy-900">
+            <a href="#services" className="hover:text-gold-600 transition-colors duration-300 py-2">Our Pillars</a>
+            <a href="#about" className="hover:text-gold-600 transition-colors duration-300 py-2">The Legacy</a>
+            <a href="#contact" className="px-8 py-3 bg-navy-950 text-white hover:bg-gold-600 hover:text-navy-950 hover:shadow-[0_15px_30px_rgba(203,153,54,0.3)] transition-all duration-500 rounded-xl font-bold tracking-widest text-[10px]">
+              CONTACT OFFICE
             </a>
           </div>
           
@@ -307,98 +316,171 @@ export default function App() {
 
       <main className="relative z-10 w-full overflow-hidden">
         
-        {/* HERO SECTION MATCHING BANNER */}
-        <section className="relative min-h-[100vh] bg-white overflow-hidden flex flex-col md:flex-row pt-24 md:pt-0 pb-10 md:pb-32 lg:pb-40">
-          {/* Subtle dotted background pattern */}
-          <div className="absolute inset-0 z-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#CBD5E1 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
+        {/* HERO SECTION - 3D PREMIUM EXPERIENCE */}
+        <section className="relative min-h-screen bg-slate-50 overflow-hidden flex flex-col lg:flex-row items-center pt-24 lg:pt-0">
+          {/* Parallax Background Layers */}
+          <motion.div 
+            style={{ y: heroTextParallax }}
+            className="absolute inset-0 z-0 opacity-10 pointer-events-none"
+          >
+            <div className="absolute top-1/4 left-10 w-64 h-64 bg-gold-400 rounded-full blur-[120px]"></div>
+            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-navy-400 rounded-full blur-[150px]"></div>
+          </motion.div>
 
-          {/* Right Area: Layered Slanted Polygons for Image & Borders */}
-          <div className="absolute top-0 right-0 h-[60vh] md:h-full w-full md:w-[65%] lg:w-[60%] z-10 hidden md:block">
-            {/* Gold Border Base */}
-            <div 
-              className="absolute inset-0 bg-gold-500 z-10 shadow-xl" 
-              style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
-            ></div>
-            
-            {/* Navy Stripe Base */}
-            <div 
-              className="absolute inset-0 bg-navy-950 z-20" 
-              style={{ clipPath: 'polygon(calc(15% + 15px) 0, 100% 0, 100% 100%, 15px 100%)' }}
-            ></div>
-
-            {/* Image Container */}
-            <div 
-              className="absolute inset-0 z-30 shadow-2xl" 
-              style={{ clipPath: 'polygon(calc(15% + 40px) 0, 100% 0, 100% 100%, 40px 100%)' }}
+          {/* Left Block: Narrative Content */}
+          <div className="relative z-20 w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-24 py-16 lg:py-0">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div 
-                className="absolute inset-0 pointer-events-none origin-center"
-              >
-                <AnimatePresence mode="popLayout">
-                  <motion.div 
-                    key={currentSlideIndex}
-                    initial={{ scale: 1.05, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3.5, ease: "easeInOut" }}
-                    className="absolute inset-0 w-full h-full bg-cover bg-center"
-                    style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}
-                  >
-                  </motion.div>
-                </AnimatePresence>
-                {/* Light overlay to prevent image from dominating completely */}
-                <div className="absolute inset-0 bg-navy-950/20 mix-blend-multiply"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-navy-900/40 to-transparent"></div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[2px] w-12 bg-gold-500"></div>
+                <span className="text-xs font-bold tracking-[0.4em] text-gold-600 uppercase">A Legacy in Motion</span>
               </div>
-            </div>
-          </div>
-
-          {/* Left Area: Solid White Content Panel */}
-          <div className="relative z-20 w-full md:w-[50%] lg:w-[48%] flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-16 md:py-32 bg-white/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
-              <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8 hidden md:block">
-                 <div className="w-16 h-1.5 bg-gold-500 mb-6"></div>
-              </motion.div>
+              
               <motion.h1 
-                initial="hidden" animate="visible"
-                variants={{
-                  hidden: { opacity: 1 },
-                  visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
-                }}
-                className="font-display text-[42px] sm:text-[50px] lg:text-[60px] xl:text-[72px] leading-[1.05] tracking-tight mb-8 drop-shadow-sm"
+                className="font-display text-[40px] sm:text-[55px] lg:text-[65px] xl:text-[82px] leading-[1] font-black text-navy-950 tracking-tighter mb-8"
               >
-                <motion.span variants={fadeUp} className="block font-black text-navy-950">BUILDING CONNECTIONS.</motion.span>
-                <motion.span variants={fadeUp} className="block font-bold text-gold-600 mt-2">DELIVERING EXCELLENCE.</motion.span>
+                <div className="overflow-hidden">
+                  <motion.span 
+                    initial={{ y: 100 }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="block"
+                  >
+                    CRAFTING A
+                  </motion.span>
+                </div>
+                <div className="overflow-hidden">
+                  <motion.span 
+                    initial={{ y: 100 }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className="block text-gold-600 italic font-serif font-light md:ml-12"
+                  >
+                    Bolder Future.
+                  </motion.span>
+                </div>
               </motion.h1>
 
-              <motion.p variants={fadeUp} initial="hidden" animate="visible" className="text-lg md:text-xl text-slate-700 font-medium max-w-xl leading-relaxed mb-12 border-l-4 border-gold-400 pl-6 bg-white/50 py-2">
-                <strong className="font-black text-navy-950 block mb-2 text-xl drop-shadow-sm">AUSPHIRA (PRIVATE) LIMITED</strong> 
-                is a diversified business group delivering world-class solutions across global markets.
-              </motion.p>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="max-w-lg mb-12"
+              >
+                <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-light">
+                  <strong className="text-navy-950 font-bold block mb-2 text-2xl">AUSPHIRA GROUP</strong>
+                  A premier collective redefining the landscape of e-commerce, global logistics, and innovative corporate strategy.
+                </p>
+                <div className="mt-6 flex items-center gap-4 text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">
+                  <span>Innovation</span>
+                  <div className="w-1 h-1 rounded-full bg-gold-400"></div>
+                  <span>Excellence</span>
+                  <div className="w-1 h-1 rounded-full bg-gold-400"></div>
+                  <span>Integrity</span>
+                </div>
+              </motion.div>
 
-              <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.2 }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
                 <a 
-                  href={phoneLink}
-                  className="w-full sm:w-auto group relative px-8 py-4 bg-navy-950 text-white font-display font-bold uppercase tracking-widest text-sm shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500"
+                  href="#contact"
+                  className="px-10 py-5 bg-navy-950 text-white font-bold tracking-[0.2em] text-xs uppercase rounded-xl hover:bg-gold-600 hover:text-navy-950 transition-all duration-500 shadow-2xl hover:shadow-gold-500/30 flex items-center justify-center gap-3"
                 >
-                  <div className="absolute inset-0 bg-gold-500 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
-                  <span className="relative flex items-center justify-center gap-2 group-hover:text-navy-950 transition-colors duration-500">
-                    <Phone className="w-4 h-4" /> Connect Now
-                  </span>
+                  Explore Ventures <ChevronRight className="w-4 h-4" />
                 </a>
               </motion.div>
+            </motion.div>
           </div>
 
-          {/* Mobile standard image block */}
-          <div className="relative w-full h-[45vh] md:hidden z-10 border-t-8 border-gold-500 overflow-hidden shadow-inner">
-             <div className="absolute inset-0 w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}></div>
-             <div className="absolute inset-0 bg-navy-950/20 mix-blend-multiply"></div>
+          {/* Right Block: 3D Animated Image Canvas */}
+          <div className="relative w-full lg:w-1/2 h-[50vh] lg:h-screen flex items-center justify-center lg:justify-end lg:pr-12 pointer-events-none">
+            <div className="relative w-[85%] lg:w-[90%] aspect-[4/5] perspective-2000">
+              {/* Floating 3D Elements */}
+              <motion.div
+                animate={{ 
+                  y: [0, -20, 0],
+                  rotateY: [-5, 5, -5],
+                  rotateX: [2, -2, 2]
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full z-10"
+              >
+                {/* Main 3D Card */}
+                <div className="absolute inset-0 rounded-[40px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border-[12px] border-white/50 backdrop-blur-sm transform rotate-y-12 translate-x-10 pointer-events-auto">
+                   <AnimatePresence mode="popLayout">
+                    <motion.div
+                      key={currentSlideIndex}
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 2, ease: "easeInOut" }}
+                      className="absolute inset-0 bg-cover bg-center"
+                      style={{ backgroundImage: `url('${heroSlides[currentSlideIndex]}')` }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+                    </motion.div>
+                  </AnimatePresence>
+                  
+                  {/* Floating Content on the 3D Card */}
+                  <div className="absolute bottom-10 left-10 right-10">
+                    <motion.div 
+                      key={currentSlideIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-2xl"
+                    >
+                      <h4 className="text-white font-black tracking-widest text-lg uppercase mb-1">
+                        {['PIONEERING COMMERCE', 'GLOBAL SOURCING', 'ELITE LOGISTICS', 'STRATEGIC TRADING', 'DIGITAL EXCELLENCE'][currentSlideIndex]}
+                      </h4>
+                      <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">AUSPHIRA Pillar {currentSlideIndex + 1}</p>
+                    </motion.div>
+                  </div>
+                </div>
+
+                {/* Depth Layers/Decor */}
+                <div className="absolute -inset-10 bg-gold-500/20 rounded-[60px] -z-10 blur-2xl transform translate-x-20 translate-y-10"></div>
+                <div className="absolute inset-0 rounded-[40px] border-2 border-gold-500/30 -z-20 transform -translate-x-10 translate-y-10"></div>
+              </motion.div>
+
+              {/* Floating Icon Badges */}
+              <motion.div 
+                animate={{ y: [0, 30, 0], rotate: [0, 10, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-20 -left-10 w-24 h-24 bg-white rounded-3xl shadow-2xl z-20 flex items-center justify-center p-5 border border-slate-100"
+              >
+                <div className="w-full h-full text-navy-950">
+                  <Globe2 strokeWidth={1} className="w-full h-full" />
+                </div>
+              </motion.div>
+
+              <motion.div 
+                animate={{ y: [0, -40, 0], rotate: [0, -5, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute bottom-20 -right-5 w-32 h-32 bg-navy-950 rounded-3xl shadow-2xl z-20 flex flex-col items-center justify-center p-6 border border-navy-800"
+              >
+                <span className="text-gold-500 font-black text-3xl mb-1">5+</span>
+                <span className="text-white/50 text-[8px] font-bold tracking-widest text-center uppercase">Diversified Sectors</span>
+              </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* 4 PILLARS OVERLAY (Matching Banner) */}
+        {/* PILLARS OVERLAY (Matching Banner) */}
         <div className="relative z-30 w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 mt-4 md:-mt-24 lg:-mt-32 mb-24">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 drop-shadow-2xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 drop-shadow-2xl">
             {[
+              {
+                title: "COMMERCE", desc: "Ecommerce\n& Retail Solutions",
+                image: heroSlides[0],
+                icon: <ShoppingCart className="w-6 h-6 text-white" />
+              },
               {
                 title: "IMPORTS", desc: "Global Sourcing\n& Procurement",
                 image: heroSlides[1],
@@ -428,16 +510,16 @@ export default function App() {
                 transition={{ duration: 0.6, delay: 0.1 * idx }}
                 className="bg-white border-b-4 border-gold-500 overflow-hidden shadow-lg flex flex-col hover:-translate-y-2 transition-transform duration-300"
               >
-                <div className="p-6 pb-4 bg-slate-50 flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center shrink-0 shadow-md">
+                <div className="p-4 sm:p-5 lg:p-6 pb-4 bg-slate-50 flex items-start gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gold-500 rounded-full flex items-center justify-center shrink-0 shadow-md">
                     {pillar.icon}
                   </div>
                   <div>
-                    <h3 className="font-display font-black text-navy-950 tracking-widest text-lg mb-1">{pillar.title}</h3>
-                    <p className="text-sm font-medium text-slate-600 whitespace-pre-line leading-snug">{pillar.desc}</p>
+                    <h3 className="font-display font-black text-navy-950 tracking-widest text-base sm:text-lg mb-1">{pillar.title}</h3>
+                    <p className="text-xs sm:text-sm font-medium text-slate-600 whitespace-pre-line leading-snug">{pillar.desc}</p>
                   </div>
                 </div>
-                <div className="relative h-40 w-full overflow-hidden border-t-2 border-white">
+                <div className="relative h-32 sm:h-40 w-full overflow-hidden border-t-2 border-white">
                   <img src={pillar.image} alt={pillar.title} className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-navy-900/10"></div>
                 </div>
