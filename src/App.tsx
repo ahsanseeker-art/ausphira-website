@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Logo } from './components/Logo';
 import { 
   Phone, 
   Mail, 
@@ -262,22 +263,8 @@ export default function App() {
           }}
           className="max-w-6xl mx-auto flex justify-between items-center px-6 md:px-10 py-3 rounded-2xl border border-transparent pointer-events-auto"
         >
-          <div className="flex items-center gap-4">
-            <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden bg-navy-950 rounded-lg flex items-center justify-center p-2 shadow-inner group cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-br from-navy-800 to-navy-950 opacity-100"></div>
-              {/* Recreating the Ausphira Icon in SVG for ultra-crisp premium look */}
-              <svg viewBox="0 0 100 100" className="w-full h-full relative z-10 drop-shadow-md">
-                <path d="M50 10 L85 90 L65 90 L50 55 L35 90 L15 90 Z" fill="#ffffff" />
-                <path d="M15 85 Q50 60 85 85" fill="none" stroke="#CB9936" strokeWidth="10" strokeLinecap="round" />
-              </svg>
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black font-display text-navy-950 tracking-[0.15em] leading-none">
-                AUS<span className="text-gold-600">PHIRA</span>
-              </span>
-              <span className="text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-slate-500 mt-1">GROUP</span>
-            </div>
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <Logo isDark={false} />
           </div>
           <div className="hidden lg:flex items-center space-x-8 text-[11px] font-display font-medium uppercase tracking-[0.2em] text-navy-900">
             <a href="#services" className="hover:text-gold-600 transition-colors duration-300 py-2">Our Pillars</a>
@@ -905,9 +892,9 @@ export default function App() {
               
               {/* Brand Col */}
               <div className="md:col-span-12 lg:col-span-5">
-                <span className="text-3xl md:text-4xl tracking-[0.2em] font-black font-display text-white uppercase block mb-6">
-                  AUS<span className="text-gold-500">PHIRA</span>
-                </span>
+                <div className="mb-6 inline-block">
+                  <Logo isDark={true} className="scale-90 origin-left" />
+                </div>
                 <p className="text-slate-400 font-light text-lg max-w-md leading-relaxed mb-8">
                   {businessInfo.tagline} {businessInfo.tagline2}. A premier business development collective bridging Lahore to the globe.
                 </p>
